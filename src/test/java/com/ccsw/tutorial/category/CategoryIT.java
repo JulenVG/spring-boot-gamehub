@@ -61,4 +61,23 @@ public class CategoryIT {
         assertNotNull(categorySearch);
         assertEquals(NEW_CATEGORY_NAME, categorySearch.getName());
     }
+    
+    public static final Long MODIFY_CATEGORY_ID = 3L;
+
+    @Test
+    public void modifyWithExistIdShouldModifyCategory() {
+
+        CategoryDto dto = new CategoryDto();
+        dto.setName(NEW_CATEGORY_NAME);
+
+        restTemplate.exchange(LOCALHOST + port + SERVICE_PATH + "/" + MODIFY_CATEGORY_ID, HttpMethod.PUT, new HttpEntity<>(dto), Void.class);
+
+        ResponseEntity<List<CategoryDto>> response = restTemplate.exchange(LOCALHOST + port + SERVICE_PATH, HttpMethod.GET, null, responseType);
+        assertNotNull(response);
+        assertEquals(3, response.getBody().size());
+
+        CategoryDto categorySearch = response.getBody().stream().filter(item -> item.getId().equals(MODIFY_CATEGORY_ID)).findFirst().orElse(null);
+        assertNotNull(categorySearch);
+        assertEquals(NEW_CATEGORY_NAME, categorySearch.getName());
+    }
 }
