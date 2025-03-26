@@ -1,8 +1,10 @@
 package com.ccsw.tutorial.category;
 
 import com.ccsw.tutorial.category.model.Category;
+import com.ccsw.tutorial.category.model.CategoryDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -12,8 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CategoryTest {
@@ -36,5 +37,22 @@ public class CategoryTest {
 
         assertNotNull(categories);
         assertEquals(1, categories.size());
+    }
+
+    public static final String CATEGORY_NAME = "CAT1";
+
+    @Test
+    public void saveNotExistsCategoryIdShouldInsert() {
+
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setName(CATEGORY_NAME);
+
+        ArgumentCaptor<Category> category = ArgumentCaptor.forClass(Category.class);
+
+        categoryService.save(null, categoryDto);
+
+        verify(categoryRepository).save(category.capture());
+
+        assertEquals(CATEGORY_NAME, category.getValue().getName());
     }
 }
