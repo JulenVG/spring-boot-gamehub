@@ -72,4 +72,15 @@ public class CategoryTest {
 
         verify(categoryRepository).save(category);
     }
+
+    @Test
+    public void deleteExistsCategoryIdShouldDelete() throws Exception {
+
+        Category category = mock(Category.class);
+        when(categoryRepository.findById(EXISTS_CATEGORY_ID)).thenReturn(Optional.of(category));
+
+        categoryService.delete(EXISTS_CATEGORY_ID);
+
+        verify(categoryRepository).deleteById(EXISTS_CATEGORY_ID);
+    }
 }
