@@ -3,7 +3,7 @@ package com.ccsw.tutorial.author.model;
 import com.ccsw.tutorial.common.pagination.PageableRequest;
 
 /**
- * @author ccsw
+ * @author JulenVG
  *
  */
 public class AuthorSearchDto {
